@@ -3,380 +3,766 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>福岡8日遊詳細行程</title>
+    <title>福岡 2/28 - 3/8 深度探險行程</title>
+    <!-- 引入 Google Fonts 與 Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        * {
-            box-sizing: border-box; 
+        :root {
+            --primary-color: #2c3e50; /* 深藍質感 */
+            --accent-color: #d35400; /* 活力橘 */
+            --bg-color: #f4f7f6;
+            --card-bg: #ffffff;
+            --timeline-color: #bdc3c7;
         }
-        html, body {
-            width: 100%;
-            overflow-x: hidden; 
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: var(--bg-color);
+            color: #333;
             margin: 0;
             padding: 0;
-        }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
             line-height: 1.6;
-            background-color: #f9f9f9;
         }
-        .container {
-            max-width: 1000px;
-            margin: 20px auto;
-            padding: 0 15px; 
-        }
-        h1 {
-            text-align: center;
-            color: #d9534f;
-            font-size: 1.8rem; 
-        }
-        h2 {
-            color: #0275d8;
-            border-bottom: 2px solid #0275d8;
-            padding-bottom: 5px;
-            margin-top: 30px;
-            font-size: 1.4rem; 
-        }
-        ul {
-            list-style-type: none;
-            padding-left: 0;
-        }
-        li {
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 8px; 
-            padding: 15px;
-            margin-bottom: 10px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05); 
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-        }
-        li strong {
-            color: #333;
-            font-size: 1.1em;
-        }
-        li a {
-            color: #0275d8;
-            text-decoration: none;
-        }
-        li a:hover {
-            text-decoration: underline;
-        }
-        /* 更新圖片樣式 */
-        li img {
-            width: 100%;
-            height: auto;
-            max-height: 400px; /* 限制圖片最大高度 */
-            object-fit: cover; /* 讓圖片比例正確 */
-            border-radius: 8px;
-            margin-top: 15px;
-            border: 1px solid #eee;
-            background-color: #fafafa; /* 圖片載入時的底色 */
-        }
-        .info-label {
-            display: inline-block;
-            width: 60px; /* 統一標籤寬度 */
-            font-weight: bold;
-            color: #555;
-        }
-        .outdoor {
-            display: inline-block;
-            background-color: #5cb85c;
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
             color: white;
-            padding: 3px 10px; 
-            border-radius: 12px; 
-            font-size: 0.8em;
-            margin-left: 10px;
+            padding: 40px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        header p {
+            margin-top: 10px;
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        /* Container */
+        .container {
+            max-width: 800px;
+            margin: -30px auto 40px;
+            padding: 0 15px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Day Section & Collapse Logic */
+        .day-section {
+            margin-bottom: 20px; /* 調整間距 */
+            border-radius: 12px;
+            overflow: hidden; /* 確保圓角 */
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            background-color: var(--bg-color);
+        }
+
+        .day-header {
+            background: var(--primary-color);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer; /* 滑鼠變手指 */
+            user-select: none; /* 防止雙擊選取文字 */
+            transition: background-color 0.3s;
+        }
+
+        .day-header:hover {
+            background-color: #34495e; /*稍微變亮*/
+        }
+
+        .header-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .day-title {
+            font-size: 1.2rem;
             font-weight: bold;
         }
-        .warning {
-            color: #d9534f;
+
+        .day-date {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* 旋轉箭頭 */
+        .toggle-icon {
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        /* 收合時的狀態 */
+        .day-section.collapsed .toggle-icon {
+            transform: rotate(-90deg); /* 箭頭向左 */
+        }
+
+        .day-section.collapsed .timeline {
+            display: none; /* 隱藏內容 */
+        }
+        
+        /* 為了讓sticky效果在收合時不怪異，我們移除原本的 sticky 效果，
+           或者保留它但要注意收合後的行為。這裡為了收合體驗流暢，先移除 sticky */
+        /*
+        .day-header {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        */
+
+        /* Timeline & Cards */
+        .timeline {
+            background: var(--card-bg);
+            padding: 20px;
+            position: relative;
+            /* 動畫過渡效果有點複雜，這裡用簡單的 display none 切換 */
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 30px;
+            top: 20px;
+            bottom: 20px;
+            width: 2px;
+            background: var(--timeline-color);
+        }
+
+        .spot-card {
+            position: relative;
+            margin-bottom: 30px;
+            padding-left: 45px;
+        }
+
+        .spot-marker {
+            position: absolute;
+            left: 21px;
+            top: 0;
+            width: 20px;
+            height: 20px;
+            background: var(--accent-color);
+            border: 3px solid white;
+            border-radius: 50%;
+            box-shadow: 0 0 0 2px var(--accent-color);
+            z-index: 1;
+        }
+
+        .spot-content {
+            background: #fff;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.2s;
+        }
+
+        .spot-content:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        .spot-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background-color: #eee;
+        }
+
+        .spot-details {
+            padding: 15px;
+        }
+
+        .spot-name {
+            font-size: 1.1rem;
             font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tags span {
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-left: 5px;
+            font-weight: normal;
+            vertical-align: middle;
+        }
+
+        .tag-outdoor { background-color: #27ae60; color: white; }
+        .tag-shop { background-color: #e67e22; color: white; }
+        .tag-food { background-color: #e74c3c; color: white; }
+        .tag-culture { background-color: #8e44ad; color: white; }
+
+        .spot-info {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 10px;
+            background: #f9f9f9;
+            padding: 8px;
+            border-radius: 6px;
+        }
+
+        .spot-info i {
+            width: 20px;
+            text-align: center;
+            color: var(--accent-color);
+        }
+
+        .spot-desc {
+            font-size: 0.9rem;
+            color: #444;
+            margin-bottom: 15px;
+        }
+
+        .btn-map {
+            display: inline-block;
+            background-color: #3498db;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 0.8rem;
+            transition: background 0.3s;
+        }
+
+        .btn-map:hover {
+            background-color: #2980b9;
+        }
+
+        .warning-text {
+            color: #c0392b;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 600px) {
+            .timeline::before { left: 20px; }
+            .spot-card { padding-left: 35px; }
+            .spot-marker { left: 11px; }
+            header h1 { font-size: 1.5rem; }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>福岡 2/28 - 3/8 深度探險行程 (大眾交通工具)</h1>
-        <p>行程已根據航班 (2/28 11:15 抵達 - 3/8 12:15 起飛) 及「不租車」的安排，並加入景點大眾運輸、營業時間和門票資訊。</p>
-    </div>
+<header>
+    <h1>福岡 8+1 日深度探險</h1>
+    <p>2/28 - 3/8 • 大眾交通 • 深度漫遊</p>
+    <p style="font-size: 0.8rem; margin-top: 5px;">(點擊日期可收合行程)</p>
+</header>
 
-    <div class="container">
-        <h2>行程規劃</h2>
-		<ul>
-			<li>
-				<span class="info-label">地圖:</span> <a href="https://www.google.com/maps/@33.605114,130.4356846,10z/data=!4m2!11m1!2so1luiJiASVe_v3NpiWqB0g?entry=ttu&g_ep=EgoyMDI1MTExMi4wIKXMDSoASAFQAw%3D%3D" target="_blank">Google 地圖連結</a><br>
-				<img src="景點圖片.png" alt="全行程" style="max-height: 1200px;" onerror="this.onerror=null;this.src='https://placehold.co/600x400/EEE/333?text=Image+Not+Found';">
-			</li>
-		</ul>
-        <!-- Day 1: City Shopping -->
-        <h2>Day 1 (2/28 週六): 抵達福岡 & 博多市區</h2>
-        <ul>
-            <li><strong>抵達福岡機場 (FUK) (11:15 抵達)</strong><br>
-                <span class="info-label">地址:</span> 〒812-0003 福岡市博多区大字下臼井778-1<br>
-                <span class="info-label">地圖:</span> <a href="https://share.google/aADlcMSaAdN5jvRqE" target="_blank">Google 地圖連結</a><br>
-                <span class="info-label">交通:</span> 搭乘免費接駁巴士從「國際線」航廈至「國內線」航廈，再轉乘地鐵「空港線」前往博多 (約 5 分鐘) 或天神 (約 11 分鐘)。
-                <img src="https://bobbyfun.tw/wp-content/uploads/2025/09/20250912173610_0_e59644.jpg" alt="福岡機場示意圖" onerror="this.onerror=null;this.src='https://placehold.co/600x400/EEE/333?text=Image+Not+Found';">
-            </li>
-            <li><strong>幸福pancake 福岡天神店</strong><br>
-                <span class="info-label">地址:</span> 日本〒810-0001 Fukuoka, Chuo Ward, Tenjin, 2 Chome−7−12 吉富ビル 2階<br>
-                <span class="info-label">地圖:</span> <a href="https://maps.app.goo.gl/Fb53cxA2ijyKCXCK7" target="_blank">Google 地圖連結</a><br>
-                <span class="info-label">交通:</span> 天神站2號出口。<br>
-                <span class="info-label">資訊:</span> 營業時間 10:30 - 19:30。
-                <img src="https://dorapig.com/wp-content/uploads/20231009230033_17.jpg" alt="REC COFFEE 示意圖" onerror="this.onerror=null;this.src='https://placehold.co/600x400/EEE/333?text=Image+Not+Found';">
-            </li>
-            <li><strong>福岡 LaLaport</strong><br>
-                <span class="info-label">地址:</span> 〒812-8627 福岡市博多区那珂6-23-1<br>
-                <span class="info-label">地圖:</span> <a href="https://share.google/hbpbP0bCspVfes6Hx" target="_blank">Google 地圖連結</a><br>
-                <span class="info-label">交通:</span> 從「博多巴士總站」1F 14 號乘車處搭乘西鐵巴士 44、45 號公車直達 (約 20 分鐘)。<br>
-                <span class="info-label">資訊:</span> 營業時間 10:00 - 21:00 (商場)。鋼彈立像在戶外 24 小時可看。
-                <img src="https://d1grca2t3zpuug.cloudfront.net/2023/12/lalaport_fukuoka_01.jpg" alt="LaLaport 鋼彈示意圖" onerror="this.onerror=null;this.src='https://placehold.co/600x400/EEE/333?text=Image+Not+Found';">
-            </li>
-            <li><strong>博多運河城</strong><br>
-                <span class="info-label">地址:</span> 〒812-0018 福岡市博多区住吉1-2<br>
-                <span class="info-label">地圖:</span> <a href="https://maps.app.goo.gl/d5WVsBRqDWz9XxNH7" target="_blank">Google 地圖連結</a><br>
-                <span class="info-label">交通:</span> 從博多運河城附近的巴士站，例如「キャナルシティ博多前」(Canal City Hakata-mae) 站或「キャナルイーストビル前」(Canal East Bldg-mae) 站，搭乘 99 號 巴士（開往「博多港國際線航廈」方向），或者搭乘 BRT（巴士快速交通系統，通常車身是連節的），也是開往「博多港」方向，在「ベイサイドプレイス博多」(Bayside Place Hakata) 站下車，大約 15 - 20 分鐘。<br>
-                <span class="info-label">資訊:</span> 營業時間 10:00 - 21:00 (商場) / 11:00 - 22:00 (餐廳)。
-                <img src="https://assets.funliday.com/posts/wp-content/uploads/2024/12/02162019/Snapinsta.app_415939155_879937227472084_2068015520542221285_n_1080-1.jpg" alt="博多運河城示意圖" onerror="this.onerror=null;this.src='https://placehold.co/600x400/EEE/333?text=Image+Not+Found';">
-            </li>
-			<li><strong>博多灣岸廣場</strong><br>
-                <span class="info-label">地址:</span> 福岡縣福岡市博多區築港本町13-6<br>
-                <span class="info-label">地圖:</span> <a href="https://maps.app.goo.gl/KpAWmADrc3ChkxKa6" target="_blank">Google 地圖連結</a><br>
-                <span class="info-label">交通:</span> <br>
-                <span class="info-label">資訊:</span> 營業時間 17:00～24:00。
-                <img src="https://www.crossroadfukuoka.jp/storage/tourism_attractions/16776/responsive_images/CzKQap5WsDjLkPMwyNzkE81ADkqsWn7f1AeXUs9G__1673_1115.jpg" alt="博多運河城示意圖" onerror="this.onerror=null;this.src='https://placehold.co/600x400/EEE/333?text=Image+Not+Found';">
-            </li>			
-        </ul>
+<div class="container" id="itinerary-container">
+    <!-- 內容將由 JavaScript 動態生成 -->
+</div>
 
-        <!-- Day 2: Outdoor 1 -->
-		<h2>Day 2 (3/1 週日): 北九州一日遊 <span class="outdoor">戶外行程</span></h2>
-        <ul>
-            <li><strong>小倉城</strong><br>
-                <span class="info-label">地址:</span> 〒803-0813 北九州市小倉北区城内2-1<br>
-                <span class="info-label">地圖:</span> <a href="https://maps.app.goo.gl/rudyEWB1coNi5nE77" target="_blank">Google 地圖連結</a><br>
-                <span class="info-label">交通:</span> 從「博多站」搭乘 JR 特急「音速 (Sonic)」或「閃耀 (Kirameki)」號至「小倉站」 (約 40-50 分鐘)，步行 15 分鐘。<br>
-                <span class="info-label">資訊:</span> 營業時間 09:00 - 18:00 (3月)。門票 350 日圓。
-                <img src="https://www.crossroadfukuoka.jp/storage/tourism_attractions/13192/responsive_images/6a89Qz9mpETbwLfdhiJa8qiGel8jrjU4G9hNvSYz__1570_1047.jpg" alt="小倉城示意圖" onerror="this.onerror=null;this.src='https://placehold.co/600x400/EEE/333?text=Image+Not+Found';">
-            </li>
-            <li><strong>旦過市場</strong><br>
-                <span class="info-label">地址:</span> 〒802-0006 北九州市小倉北区魚町4-2-18<br>
-                <span class="info-label">地圖:</span> <a href="https://maps.app.goo.gl/kKNs8PtnbHD8cW3n9" target="_blank">Google 地圖連結</a><br>
-                <span class="info-label">交通:</span> 從「小倉城」步行約 10 分鐘。<br>
-                <span class="info-label">資訊:</span> 營業時間 10:00 - 18:00 (各店鋪不一，週日多數休息)。
-                <img src="https://www.crossroadfukuoka.jp/storage/tourism_attractions/13182/responsive_images/AMSmSohKjcTx6kbho7t7uly1QDjzU1EoYzSEndsQ__1680_1007.jpg" alt="旦過市場示意圖" onerror="this.onerror=null;this.src='https://placehold.co/600x400/EEE/333?text=Image+Not+Found';">
-            </li>
-            <li><strong>門司港懷舊區</strong><br>
-                <span class="info-label">地址:</span> (以門司港車站為起點) 〒801-0841 北九州市門司区西海岸1-5-31<br>
-                <span class="info-label">地圖:</span> <a href="https://maps.app.goo.gl/apyMPru6WtfZ54ZS8" target="_blank">Google 地圖連結</a><br>
-                <span class="info-label">交通:</span> 從「小倉站」搭乘 JR 鹿兒島本線至「門司港站」(終點站) (約 13 分鐘)。<br>
-                <span class="info-label">資訊:</span> 在明治初期因開設國際貿易港而繁榮的門司港，保留了很多從明治時代到昭和初期的古色古香的建築，非常適合在這個地區一邊漫步，一邊欣賞充滿懷舊風情的建築物。戶外 24 小時開放，各設施營業時間不同。
-                <img src="https://www.crossroadfukuoka.jp/storage/tourism_attractions/10619/responsive_images/PPasJtMun4JX3iIvXs3nuFk92d8Ak3eL4m7tWT9T__1658_1105.jpg" alt="門司港懷舊區示意圖" onerror="this.onerror=null;this.src='https://placehold.co/600x400/EEE/333?text=Image+Not+Found';">
-            </li>
-            <li><strong>皿倉山展望台</strong><br>
-                <span class="info-label">地址:</span> (皿倉山纜車山麓站) 〒805-0057 北九州市八幡東区大字尾倉1481-1<br>
-                <span class="info-label">地圖:</span> <a href="https://maps.app.goo.gl/8MxT9T3QmsDFCyoD8" target="_blank">Google 地圖連結</a><br>
-                <span class="info-label">交通:</span> 從「門司港/小倉站」搭乘 JR 至「八幡站」下車 (約 20-30 分鐘)。出站後轉乘「皿倉山纜車免費接駁巴士」(週末及假日運行) 前往纜車山麓站。<br>
-                <span class="info-label">資訊:</span> 可以欣賞北九州市街景的廣景展望台。前往標高622公尺的皿倉山展望台，需要搭乘纜車、再轉乘單軌車才能抵達。由山麓站到山上站全長1100公尺，爬升440公尺，是西日本最長的纜車。在搭乘過程中透過大片的玻璃車窗，隨時可以欣賞到窗外不斷變化的景色。
-從皿倉山展望台往下看，就是與長崎市、札幌市齊名的北九州市夜景，共同被認定為「日本新三大夜景都市」
-纜車 10:00 - 22:00。往返票 1230 日圓。<span class="warning"> (平日無接駁車，需從八幡站搭乘計程車約 5 分鐘)</span>
-                <img src="https://static.gltjp.com/glt/data/directory/13000/12873/20220223_105017_deba3c1d_w1920.webp" alt="皿倉山夜景示意圖" onerror="this.onerror=null;this.src='https://placehold.co/600x400/EEE/333?text=Image+Not+Found';">
-            </li>
-        </ul>
+<footer>
+    <p>Have a nice trip to Fukuoka!</p>
+</footer>
+
+<script>
+    /**
+     * ============================================================
+     * 使用者設定區 (USER CONFIGURATION)
+     * 請在此處填入您查詢到的經緯度。
+     * 格式：lat: 緯度, lng: 經度
+     * 如果不填 (null)，地圖按鈕會自動切換為「文字搜尋」模式。
+     * ============================================================
+     */
+    const locationData = {
+        // Day 1
+        "fuk_airport": { lat: null, lng: null }, // 福岡機場
+        "pancake": { lat: null, lng: null },     // 幸福pancake
+        "lalaport": { lat: null, lng: null },    // LaLaport
+        "canal_city": { lat: null, lng: null },  // 博多運河城
+        "bayside": { lat: null, lng: null },     // 博多灣岸廣場
         
-        <!-- Day 3: Outdoor 2 -->
-        <h2>Day 3 (3/2 週一): 天神、公園與夜景 <span class="outdoor">戶外行程</span></h2>
-        <ul>
-            <li><strong>天神地下街</strong><br>
-                <span class="info-label">地址:</span> 〒810-0001 福岡市中央区天神2丁目 地下1・2・3号<br>
-                <span class="info-label">地圖:</span> <a href="https://maps.app.goo.gl/ZQVyLEQeHJyeGALe7" target="_blank">Google 地圖連結</a><br>
-                <span class="info-label">交通:</span> 地鐵「天神站」或「天神南站」直通。<br>
-                <span class="info-label">資訊:</span> 營業時間 10:00 - 20:00 (商鋪)。
-                <img src="https://d1grca2t3zpuug.cloudfront.net/2024/04/phga-location-top-870x500.webp" alt="天神地下街示意圖" onerror="this.onerror=null;this.src='https://placehold.co/600x400/EEE/333?text=Image+Not+Found';">
-            </li>
-			<li><strong>博多名代 吉塚鰻魚屋</strong><br>
-                <span class="info-label">地址:</span> 〒810-0001 福岡市中央区天神2丁目 地下1・2・3号<br>
-                <span class="info-label">地圖:</span> <a href="https://maps.app.goo.gl/o5X3yRs5tWy4fxeW8" target="_blank">Google 地圖連結</a><br>
-                <span class="info-label">交通:</span> 地鐵「櫛田神社前站」走路過去。<br>
-                <span class="info-label">資訊:</span> 營業時間 10:00 - 21:00 (商鋪)。
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRuYmsmOy0xM9zN1Vk9j4Uvg1aqdWiQf3rOgA&s/1280px-Tenjin-chikagai_2013-09-07.jpg" alt="博多名代 吉塚鰻魚屋" onerror="this.onerror=null;this.src='https://placehold.co/600x400/EEE/333?text=Image+Not+Found';">
-            </li>			
-            <li><strong>大濠公園</strong><br>
-                <span class="info-label">地址:</span> 〒810-0051 福岡市中央区大濠公園1<br>
-                <span class="info-label">地圖:</span> <a href="https://maps.app.goo.gl/3jrj7o3X5c8Yfc92A" target="_blank">Google 地圖連結</a><br>
-                <span class="info-label">交通:</span> 地鐵「大濠公園站」下車，3 號或 6 號出口即達。<br>
-                <span class="info-label">資訊:</span> 位於福岡市中心的公園，距離天神站有兩站地的路程。雖然地處繁華的市區，但卻擁有巨大的水池和豐富的自然風光，是當地人喜愛的休閒場所。
-公園總面積約39.8公頃，而大水池就佔據了一半以上，福岡藩第一代藩主黑田長政在建造福岡城時被用作外護城河。
-在水池中間分佈有柳島、松島、菖蒲島三個小島，可以藉由連接各小島的四座小橋橫越水池。水池周圍整備了約2公里的周遊步道，不僅適合散步，也是非常熱門的慢跑和自行車路線。
-                <img src="https://www.ohorikouen.jp/img/lng/island.jpg" alt="大濠公園示意圖" onerror="this.onerror=null;this.src='https://placehold.co/600x400/EEE/333?text=Image+Not+Found';">
-            </li>
-            <li><strong>福岡塔</strong><br>
-                <span class="info-label">地址:</span> 〒814-0001 福岡市早良区百道浜2-3-26<br>
-                <span class="info-label">地圖:</span> <a href="https://maps.app.goo.gl/oJkBNyQNPorfmTst6" target="_blank">Google 地圖連結</a><br>
-                <span class="info-label">交通:</span> 從「博多巴士總站」搭乘西鐵巴士 306 號；或從「天神」搭乘 W1 號，至「福岡塔」站下車。<br>
-                <span class="info-label">資訊:</span> 營業時間 09:30 - 22:00。門票 800 日圓 (持護照有外國人優惠 640 日圓)。
-                <img src="https://www.crossroadfukuoka.jp/storage/tourism_attractions/12343/responsive_images/Xe2DsFgtzeQmkTADNBhziwV6MfGNB2Ck99CIEP8g__1690_1125.jpg" alt="福岡塔示意圖" onerror="this.onerror=null;this.src='https://placehold.co/600x400/EEE/333?text=Image+Not+Found';">
-            </li>
-            <li><strong>百道海濱公園</strong><br>
-                <span class="info-label">地址:</span> 〒814-0001 福岡市早良区百道浜2-902-1<br>
-                <span class="info-label">地圖:</span> <a href="https://maps.app.goo.gl/6V86hhsxsYoTRQWQA" target="_blank">Google 地圖連結</a><br>
-                <span class="info-label">交通:</span> 從「福岡塔」步行 1 分鐘即達。<br>
-                <span class="info-label">資訊:</span> 24 小時開放，免費。
-				<img src="https://www.fukuokatower.co.jp/files/bgeditor/img/132__c2Vhc2lkZW1vbW9jaGktMDE-d-.jpg" alt="百道海濱公園" onerror="this.onerror=null;this.src='https://placehold.co/600x400/EEE/333?text=Image+Not+Found';">
-            </li>
-        </ul>
+        // Day 2
+        "kokura_castle": { lat: null, lng: null }, // 小倉城
+        "tanga_market": { lat: null, lng: null },  // 旦過市場
+        "mojiko": { lat: null, lng: null },        // 門司港懷舊區
+        "sarakurayama": { lat: null, lng: null },  // 皿倉山展望台
 
-        <!-- Day 4: City Shopping -->
-        <h2>Day 4 (3/3 週二): Outlet 購物日</h2>
-        <ul>
-            <li><strong>Marinoa City Fukuoka (福岡 Outlet)</strong><br>
-                <span class="info-label">地址:</span> 〒819-0001 福岡市西区小戸2-12-30<br>
-                <span class="info-label">地圖:</span> <a href="https://maps.app.goo.gl/ndiEhRf3phc1AZtF8" target="_blank">Google 地圖連結</a><br>
-                <span class="info-label">交通:</span> 從「天神」站 (天神高速巴士總站前 1A 乘車處) 搭乘西鐵巴士 333 號直達 (約 30 分鐘)。<br>
-                <span class="info-label">資訊:</span> 營業時間 10:00 - 20:00。
-                <img src="https://japantravel.co/wp-content/uploads/2024/08/marinoa-city-fukuoka-daytime-2.jpg" alt="Marinoa City Outlet 示意圖" onerror="this.onerror=null;this.src='https://placehold.co/600x400/EEE/333?text=Image+Not+Found';">
-            </li>
-            <li><strong>天神商圈補完</strong><br>
-                (如果 Outlet 逛得意猶未盡，晚上可搭巴士回到天神商圈繼續)
-            </li>
-        </ul>
+        // Day 3
+        "tenjin_under": { lat: null, lng: null },  // 天神地下街
+        "yoshizuka": { lat: null, lng: null },     // 吉塚鰻魚屋
+        "ohori_park": { lat: null, lng: null },    // 大濠公園
+        "fukuoka_tower": { lat: null, lng: null }, // 福岡塔
+        "momochi": { lat: null, lng: null },       // 百道海濱公園
 
-        <!-- Day 5: Outdoor 3 -->
-        <h2>Day 5 (3/4 週三): 宗教與文化巡禮 <span class="outdoor">戶外行程</span></h2>
-        <ul>
-            <li><strong>太宰府天滿宮 </strong><br>
-                <span class="info-label">地址:</span> 〒818-0117 福岡県太宰府市宰府4-7-1<br>
-                <span class="info-label">地圖:</span> <a href="https://maps.app.goo.gl/GuwZLgUX6u6giogH7" target="_blank">Google 地圖連結</a><br>
-                <span class="info-label">交通:</span> 從「西鐵福岡(天神)站」搭乘西鐵天神大牟田線至「二日市站」，轉乘「太宰府線」至「太宰府站」下車 (約 30 分鐘)。<br>
-                <span class="info-label">資訊:</span> 營業時間 06:30 - 19:00 (3月)。門票免費。
-                <img src="https://images.ctfassets.net/zk4rsh4y8c7i/378k5bVGsV8QGQwf7CoBjb/0c82d7cbda91012ebdfeed457973239a/img_og_dazaifu_tcn.jpg?q=30" alt="太宰府天滿宮示意圖" onerror="this.onerror=null;this.src='https://placehold.co/600x400/EEE/333?text=Image+Not+Found';">
-            </li>
-            <li><strong>南藏院</strong><br>
-                <span class="info-label">地址:</span> 〒811-2405 福岡県糟屋郡篠栗町大字篠栗1035<br>
-                <span class="info-label">地圖:</span> <a href="https://maps.app.goo.gl/JS2r8eFXa8yLeyoD9" target="_blank">Google 地圖連結</a><br>
-                <span class="info-label">交通:</span> 從「博多站」搭乘 JR 篠栗線 (福北豐線) 至「城戶南藏院前站」下車 (約 20-25 分鐘)，步行 3 分鐘即達。<br>
-                <span class="info-label">資訊:</span> 營業時間 09:00 - 17:00。門票免費 (臥佛胎內參拜 500 日圓)。
-                <img src="https://peikie.com/wp-content/uploads/IMG_2834.jpeg" alt="南藏院臥佛示意圖" onerror="this.onerror=null;this.src='https://placehold.co/600x400/EEE/333?text=Image+Not+Found';">
-            </li>
-        </ul>
+        // Day 4
+        "marinoa": { lat: null, lng: null },       // Marinoa City Outlet
 
-        <!-- Day 6: Relaxing Day Trip -->
-        <h2>Day 6 (3/5 週四): 鄰縣漫遊 - 大分湯布院</h2>
-        <ul>
-            <li><strong>湯布院 (由布院車站)</strong><br>
-                <span class="info-label">地址:</span> 〒879-5102 大分県由布市湯布院町川北8-2<br>
-                <span class="info-label">地圖:</span> <a href="https://maps.app.goo.gl/pk6UVkcsCyc32NmF8" target="_blank">Google 地圖連結</a><br>
-                <span class="info-label">交通:</span> 從「博多巴士總站」搭乘「高速巴士」直達「由布院站前」(約 1 小時 40 分鐘)，比 JR 更方便且班次多。<br>
-                <span class="info-label">資訊:</span> 強烈建議提早預訂高速巴士座位。
-                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgfENkvdMq_GuBvhxuWFrG92b0Uf-10Nfxd12SJczBi5OHyyTbwySccfOQcVovpxm1rg5DaUVvwreUpW4Iiyof0yDwZ3knDaqBlEAplmiOb1qMeGTYye-Fp6ghQxKUu8-5P-MlYLP2BYNFx/s1600-rw/Kyushu-Yufuin-IMG_4766.JPG" alt="由布院車站示意圖" onerror="this.onerror=null;this.src='https://placehold.co/600x400/EEE/333?text=Image+Not+Found';">
-            </li>
-            <li><strong>湯之坪街道</strong><br>
-                <span class="info-label">地址:</span> 〒879-5102 大分県由布市湯布院町川上 (街道)<br>
-                <span class="info-label">地圖:</span> <a href="https://maps.app.goo.gl/yD7dBqemhtB1E5GQ7" target="_blank">Google 地圖連結</a><br>
-                <span class="info-label">交通:</span> 從「由布院站」步行 5 分鐘即達。<br>
-                <span class="info-label">資訊:</span> 營業時間 10:00 - 17:00 (各店鋪不一)。
-                <img src="https://s3-ap-northeast-1.amazonaws.com/thegate/2021/02/02/13/38/03/Yunotsubo-Kaido.jpg" alt="湯之坪街道示意圖" onerror="this.onerror=null;this.src='https://placehold.co/600x400/EEE/333?text=Image+Not+Found';">
-            </li>
-            <li><strong>金鱗湖</strong><br>
-                <span class="info-label">地址:</span> 〒879-5102 大分県由布市湯布院町川上1561-1<br>
-                <span class="info-label">地圖:</span> <a href="https://maps.app.goo.gl/KxNSihvrGznC8JGz8" target="_blank">Google 地圖連結</a><br>
-                <span class="info-label">交通:</span> 沿著「湯之坪街道」步行到底 (約 20-25 分鐘)。<br>
-                <span class="info-label">資訊:</span> 24 小時開放，免費。
-                <img src="https://tw.wamazing.com/media/wp-content/uploads/sites/4/2024/06/kinrinko_pixta_73475123_M.jpg.webp" alt="金鱗湖示意圖" onerror="this.onerror=null;this.src='https://placehold.co/600x400/EEE/333?text=Image+Not+Found';">
-            </li>
-        </ul>
+        // Day 5
+        "dazaifu": { lat: null, lng: null },       // 太宰府天滿宮
+        "nanzoin": { lat: null, lng: null },       // 南藏院
 
-        <!-- Day 7: Outdoor 4 -->
-        <h2>Day 7 (3/6 週五): 糸島海岸線 <span class="outdoor">戶外行程</span></h2>
-        <ul>
-            <li><strong>(新) 糸島交通提示</strong><br>
-                <span class="warning">這一天是本次行程中「無車」難度最高的。</span> 景點分散且巴士班次極少 (1-2 小時一班)。<br>
-                <span class-></span> <span class="warning">替代方案：</span> 建議從「JR 筑前前原站」或「九大學研都市站」搭乘計程車，或租借「電動自行車 (e-bike)」遊覽，會比等巴士更有效率。
-            </li>
-            <li><strong>櫻井二見浦 夫婦岩</strong><br>
-                <span class="info-label">地址:</span> 〒819-1304 福岡県糸島市志摩桜井<br>
-                <span class="info-label">地圖:</span> <a href="https://maps.app.goo.gl/sV2Ee5Rkmv3ANG4ZA" target="_blank">Google 地圖連結</a><br>
-                <span class="info-label">交通:</span> 從「JR 九大學研都市站」搭乘「昭和巴士」西之浦線 (往西之浦)，於「二見ヶ浦 (夫婦岩前)」站下車。<br>
-                <span class="info-label">資訊:</span> 24 小時開放，免費。
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ06MEAJT_hp1Td6YCFC1-SuNhs08qwH8SIhg&s" alt="櫻井二見浦 夫婦岩示意圖" onerror="this.onerror=null;this.src='https://placehold.co/600x400/EEE/333?text=Image+Not+Found';">
-            </li>
-            <li><strong>Zauo 本店 (椰林鞦韆)</strong><br>
-                <span class="info-label">地址:</span> 〒819-0203 福岡市西区小田79-6<br>
-                <span class="info-label">地圖:</span> <a href="https://maps.app.goo.gl/VCNjmecvqjXG3mtTA" target="_blank">Google 地圖連結</a><br>
-                <span class="info-label">交通:</span> 位於「二見浦」附近，可步行前往，或搭乘同班巴士至「海釣公園前」站。<br>
-                <span class="info-label">資訊:</span> 營業時間 11:30 - 21:30 (平日) / 11:00 - 21:30 (假日)。
-                <img src="https://www.hokkaidolibrary.com/img/attractions_pic/Itojima_eye3.jpg" alt="Zauo 椰林鞦韆示意圖" onerror="this.onerror=null;this.src='https://placehold.co/600x400/EEE/333?text=Image+Not+Found';">
-            </li>
-            <li><strong>倫敦巴士咖啡廳</strong><br>
-                <span class="info-label">地址:</span> 〒819-1303 福岡県糸島市志摩野北2289-6<br>
-                <span class="info-label">地圖:</span> <a href="https://maps.app.goo.gl/MUUAfzq4wiFTD4Qc7" target="_blank">Google 地圖連結</a><br>
-                <span class="info-label">交通:</span> 搭乘「昭和巴士」西之浦線至「野北」站下車。<br>
-                <span class="info-label">資訊:</span> 營業時間 11:00 - 19:00 (或日落)。
-                <img src="https://wow.com.hk/wp-content/uploads/DSC2270-scaled.jpg" alt="倫敦巴士咖啡廳示意圖" onerror="this.onerror=null;this.src='https://placehold.co/600x400/EEE/333?text=Image+Not+Found';">
-            </li>
-        </ul>
+        // Day 6
+        "yufuin_station": { lat: null, lng: null }, // 由布院車站
+        "yunotsubo": { lat: null, lng: null },      // 湯之坪街道
+        "kinrin_lake": { lat: null, lng: null },    // 金鱗湖 (傍晚/夜間)
 
-        <!-- Day 8: City Culture -->
-        <h2>Day 8 (3/7 週六): 博多舊城區 & 完美句點</h2>
-        <ul>
-            <li><strong>櫛田神社</strong><br>
-                <span class="info-label">地址:</span> 〒812-0026 福岡市博多区上川端町1-41<br>
-                <span class="info-label">地圖:</span> <a href="https://maps.app.goo.gl/vZnYmNDaX2a5gsjD8" target="_blank">Google 地圖連結</a><br>
-                <span class="info-label">交通:</span> 地鐵「祇園站」2 號出口步行 5 分鐘，或「中洲川端站」5 號出口步行 5 分鐘。<br>
-                <span class="info-label">資訊:</span> 相傳櫛田神社創建於奈良時代，為博多地區的守護神，在博多民眾口中有「櫛田先生」的暱稱。神社於每年7月舉行宣告博多夏季到來的「博多祇園山笠」，還有壯觀華麗的「飾山笠」全年都可參觀（6月除外）。
-相傳豐臣秀吉在重振博多時，捐贈並建造了現在的社殿，腹地內的「博多歷史館」，保留豐臣秀吉留下的朱印狀、室町時代松囃子的古面具等，能參觀許多珍貴的博多史料。營業時間 04:00 - 22:00。門票免費。
-                <img src="https://www.crossroadfukuoka.jp/storage/tourism_attractions/12510/responsive_images/4jz3eLXD7vlsC5mkI0SE8kwFzjCjK6tgsbBcPQ1Y__1673_1115.jpg" alt="櫛田神社示意圖" onerror="this.onerror=null;this.src='https://placehold.co/600x400/EEE/333?text=Image+Not+Found';">
-            </li>
-            <li><strong>BREAD, ESPRESSO & HAKATA &</strong><br>
-                <span class="info-label">地址:</span> 〒812-0026 福岡市博多区上川端町1-1<br>
-                <span class="info-label">地圖:</span> <a href="https://maps.app.goo.gl/iRVQ8VPQvydDNg1PA" target="_blank">Google 地圖連結</a><br>
-                <span class="info-label">交通:</span> 位於「川端通商店街」入口旁，從「櫛田神社」步行 2 分鐘。<br>
-                <span class="info-label">資訊:</span> 營業時間 08:00 - 20:00。
-                <img src="https://static.popdaily.com.tw/u/202409/540e91d4-f9d2-48d2-b2d5-a3c242602aa4.png" alt="BREAD, ESPRESSO & HAKATA & 示意圖" onerror="this.onerror=null;this.src='https://placehold.co/600x400/EEE/333?text=Image+Not+Found';">
-            </li>
-            <li><strong>川端通商店街</strong><br>
-                <span class="info-label">地址:</span> 〒812-0026 福岡市博多区上川端町<br>
-                <span class="info-label">地圖:</span> <a href="https://maps.app.goo.gl/V7XdzqzZkGPbBouw6" target="_blank">Google 地圖連結</a><br>
+        // Day 7 (由布院 Day 2)
+        "kinrin_morning": { lat: null, lng: null }, // 金鱗湖晨霧
+        "floral_village": { lat: null, lng: null }, // 湯布院童話村
+        "comico_art": { lat: null, lng: null },     // COMICO ART MUSEUM
+        "mt_yufu_view": { lat: null, lng: null },   // 由布岳登山口/觀景點
 
-                <span class="info-label">交通:</span> 連接「櫛田神社」和「中洲川端站」。<br>
-                <span class="info-label">資訊:</span> 營業時間 10:00 - 19:00 (各店鋪不一)。
-				<img src="https://tw.wamazing.com/media/wp-content/uploads/sites/4/2019/11/fukuokashotengai_7.jpg.webp" alt="川端通商店街" onerror="this.onerror=null;this.src='https://placehold.co/600x400/EEE/333?text=Image+Not+Found';">
-            </li>
-            <li><strong>那珂川水上巴士</strong><br>
-                <span class="info-label">地址:</span> (搭乘處：福博であい橋) 〒810-0002 福岡市中央区西中洲6<br>
-                <span class="info-label">地圖:</span> <a href="https://maps.app.goo.gl/spLGDr5351wDn4qN7" target="_blank">Google 地圖連結</a><br>
-                <span class="info-label">交通:</span> 地鐵「中洲川端站」步行 5 分鐘，位於天神中央公園旁。<br>
-                <span class="info-label">資訊:</span>若想在短時間內一口氣巡遊福岡縣內極為熱鬧的博多市區的話，推薦搭乘博多・中洲・那珂川水上巴士來一趟「河道遊船」。
-此水上巴士共有3種方案，特別推薦行經「博多運河城」、「Bayside Place博多」，日本第一高的海濱塔「福岡塔」等觀光景點的路線，所需時間約45分鐘。白天沐浴在清爽宜人的陽光中，傍晚日落時分有沉靜的夕陽景色，夜間則能觀賞霓紅燈下別具情調的城市景觀，乘船時間也是一大重點
-。 營業時間 傍晚開始 (約 18:00 - 21:00)。航程約 30 分鐘，票價 1500 日圓。
-                <img src="https://www.crossroadfukuoka.jp/storage/tourism_attractions/11452/responsive_images/FjDrKw18dVcXTAHLTvQB8BzqQyhLzVsBAOiFV3wg__1673_1116.jpg" alt="那珂川水上巴士示意圖" onerror="this.onerror=null;this.src='https://placehold.co/600x400/EEE/333?text=Image+Not+Found';">
-            </li>
-            <li><strong>中洲屋台</strong><br>
-                <span class="info-label">地址:</span> (中洲清流公園一帶) 〒810-0801 福岡市博多区中洲<br>
-                <span class="info-label">地圖:</span> <a href="https://maps.app.goo.gl/b57J2E5o4MuRf3M76" target="_blank">Google 地圖連結</a><br>
-                <span class="info-label">交通:</span> 從「那珂川水上巴士」搭乘處步行即達。<br>
-                <span class="info-label">資訊:</span> 在美食之都「博多」，能夠深入體驗道地美食的就是中洲屋台街。拉麵、串物、關東煮等，可以搭配酒飲一起享用。流經九州知名熱鬧商圈「中洲」的那珂川水面上，倒映著絢麗的霓虹燈，攤販沿著川旁一字排開的景象蔚為壯觀。光是散步閑走就能感受到這份熱鬧喧騰。
-屋台（小吃攤）從18點30分左右開始營業。比起待在同一家，建議在吃得差不多的時候，接著換到下一家屋台的「續攤喝酒」方式會更有趣。
-營業時間 18:00 - 24:00 (各攤位不一，雨天可能休息)。
-                <img src="https://static.gltjp.com/glt/data/directory/15000/14348/20230324_204943_457f9a93_w1920.webp" alt="中洲屋台示意圖" onerror="this.onerror=null;this.src='https://placehold.co/600x400/EEE/333?text=Image+Not+Found';">
-            </li>
-        </ul>
+        // Day 8
+        "kushida": { lat: null, lng: null },        // 櫛田神社
+        "bread_espresso": { lat: null, lng: null }, // BREAD, ESPRESSO
+        "kawabata": { lat: null, lng: null },       // 川端通商店街
+        "river_cruise": { lat: null, lng: null },   // 那珂川水上巴士
+        "nakasu_yatai": { lat: null, lng: null },   // 中洲屋台
 
-        <!-- Day 9: Departure -->
-        <h2>Day 9 (3/8 週日): 歸途</h2>
-        <ul>
-            <li><strong>飯店 Check-out & 最後採買</strong><br>
-                <span class="info-label">資訊:</span> D: 您的航班是 12:15 起飛，國際線建議提早 2 小時 (10:15) 抵達機場。您早上還有約 1-2 小時可在博多車站（JR HAKATA CITY）進行最後採買。
-				<span class="info-label">地圖:</span> <a href="https://maps.app.goo.gl/JfbnK36VgHbbATK2A" target="_blank">Google 地圖連結</a><br>
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTAYEWSMdwv0MGsiOKJvR5Q59KVwAV1HXwLA&s" alt="博多車站示意圖" onerror="this.onerror=null;this.src='https://placehold.co/600x400/EEE/333?text=Image+Not+Found';">
-            </li>
-            <li><strong>前往福岡機場 (FUK) (12:15 起飛)</strong><br>
-                <span class="info-label">地址:</span> 〒812-0003 福岡市博多区大字下臼井778-1<br>
-                <span class="info-label">地圖:</span> <a href="https://maps.app.goo.gl/qwVZNq54QZARhZQA9" target="_blank">Google 地圖連結</a><br>
-                <span class="info-label">交通:</span> 從「博多站」搭乘地鐵「空港線」至「福岡機場站」(國內線航廈)，再轉乘<span class="warning">免費接駁巴士</span>至「國際線航廈」。<br>
-                <span class="info-label">提示:</span> <span class="warning">請務必預留「國內線轉國際線」接駁巴士的時間 (約 15-20 分鐘)。建議您最晚 09:45 從博多站出發。</span>
-            </li>
-        </ul>
-    </div>
+        // Day 9
+        "hakata_station": { lat: null, lng: null }  // 博多車站
+    };
+
+    /**
+     * 行程資料結構
+     */
+    const itinerary = [
+        {
+            day: 1,
+            date: "2/28 (週六)",
+            title: "抵達福岡 & 博多市區",
+            spots: [
+                {
+                    id: "fuk_airport",
+                    name: "抵達福岡機場 (FUK)",
+                    tag: "交通",
+                    tagClass: "tag-culture",
+                    img: "https://bobbyfun.tw/wp-content/uploads/2025/09/20250912173610_0_e59644.jpg",
+                    info: "11:15 抵達 | 轉乘免費接駁巴士至國內線搭地鐵",
+                    desc: "抵達後，搭乘接駁車前往國內線航廈，轉乘地鐵空港線只需5分鐘即可抵達博多市區。"
+                },
+                {
+                    id: "pancake",
+                    name: "幸福pancake 福岡天神店",
+                    tag: "美食",
+                    tagClass: "tag-food",
+                    img: "https://dorapig.com/wp-content/uploads/20231009230033_17.jpg",
+                    info: "10:30 - 19:30 | 天神站2號出口",
+                    desc: "知名的舒芙蕾鬆餅，建議先去抽號碼牌或預約，口感如雲朵般鬆軟。"
+                },
+                {
+                    id: "lalaport",
+                    name: "福岡 LaLaport",
+                    tag: "購物",
+                    tagClass: "tag-shop",
+                    img: "https://d1grca2t3zpuug.cloudfront.net/2023/12/lalaport_fukuoka_01.jpg",
+                    info: "10:00 - 21:00 | 1:1 鋼彈立像",
+                    desc: "博多巴士總站搭乘 44/45 號公車直達。除了購物，戶外的巨型鋼彈是必拍地標。"
+                },
+                {
+                    id: "canal_city",
+                    name: "博多運河城",
+                    tag: "購物",
+                    tagClass: "tag-shop",
+                    img: "https://assets.funliday.com/posts/wp-content/uploads/2024/12/02162019/Snapinsta.app_415939155_879937227472084_2068015520542221285_n_1080-1.jpg",
+                    info: "10:00 - 21:00 | 定時水舞秀",
+                    desc: "結合運河的複合式商場。可從博多車站步行或搭乘百元巴士前往。"
+                },
+                {
+                    id: "bayside",
+                    name: "博多灣岸廣場",
+                    tag: "景點",
+                    tagClass: "tag-outdoor",
+                    img: "https://www.crossroadfukuoka.jp/storage/tourism_attractions/16776/responsive_images/CzKQap5WsDjLkPMwyNzkE81ADkqsWn7f1AeXUs9G__1673_1115.jpg",
+                    info: "17:00 - 24:00",
+                    desc: "包含博多港塔（免費入場）與水族館，夜晚港口景色迷人。"
+                }
+            ]
+        },
+        {
+            day: 2,
+            date: "3/1 (週日)",
+            title: "北九州一日遊",
+            spots: [
+                {
+                    id: "kokura_castle",
+                    name: "小倉城",
+                    tag: "戶外",
+                    tagClass: "tag-outdoor",
+                    img: "https://www.crossroadfukuoka.jp/storage/tourism_attractions/13192/responsive_images/6a89Qz9mpETbwLfdhiJa8qiGel8jrjU4G9hNvSYz__1570_1047.jpg",
+                    info: "09:00 - 18:00 | 門票 350円",
+                    desc: "搭乘 JR特急音速號至小倉站。這是北九州的象徵，天守閣內有互動展覽。"
+                },
+                {
+                    id: "tanga_market",
+                    name: "旦過市場",
+                    tag: "美食",
+                    tagClass: "tag-food",
+                    img: "https://www.crossroadfukuoka.jp/storage/tourism_attractions/13182/responsive_images/AMSmSohKjcTx6kbho7t7uly1QDjzU1EoYzSEndsQ__1680_1007.jpg",
+                    info: "10:00 - 18:00 | 北九州的廚房",
+                    desc: "從小倉城步行約10分鐘。必吃魚板、大學芋等在地小吃（留意週日部分店休）。"
+                },
+                {
+                    id: "mojiko",
+                    name: "門司港懷舊區",
+                    tag: "戶外",
+                    tagClass: "tag-outdoor",
+                    img: "https://www.crossroadfukuoka.jp/storage/tourism_attractions/10619/responsive_images/PPasJtMun4JX3iIvXs3nuFk92d8Ak3eL4m7tWT9T__1658_1105.jpg",
+                    info: "24H 開放 | 歐式建築群",
+                    desc: "JR 門司港站下車。充滿大正浪漫風情，必吃燒咖哩，可散步至關門海峽看海。"
+                },
+                {
+                    id: "sarakurayama",
+                    name: "皿倉山展望台",
+                    tag: "夜景",
+                    tagClass: "tag-outdoor",
+                    img: "https://static.gltjp.com/glt/data/directory/13000/12873/20220223_105017_deba3c1d_w1920.webp",
+                    info: "纜車往返 1230円 | 新日本三大夜景",
+                    desc: "JR 八幡站轉乘免費接駁車（週末運行）。<span class='warning-text'>平日需搭計程車至纜車站。</span>視野極佳，可俯瞰整個北九州。"
+                }
+            ]
+        },
+        {
+            day: 3,
+            date: "3/2 (週一)",
+            title: "天神、公園與夜景",
+            spots: [
+                {
+                    id: "tenjin_under",
+                    name: "天神地下街",
+                    tag: "購物",
+                    tagClass: "tag-shop",
+                    img: "https://d1grca2t3zpuug.cloudfront.net/2024/04/phga-location-top-870x500.webp",
+                    info: "10:00 - 20:00 | 歐風設計",
+                    desc: "全長約600米，連接地鐵天神站與天神南站，適合雨天備案或躲避豔陽。"
+                },
+                {
+                    id: "yoshizuka",
+                    name: "博多名代 吉塚鰻魚屋",
+                    tag: "美食",
+                    tagClass: "tag-food",
+                    img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRuYmsmOy0xM9zN1Vk9j4Uvg1aqdWiQf3rOgA&s",
+                    info: "10:30 - 21:00 | 百年老店",
+                    desc: "福岡最知名的鰻魚飯，建議避開尖峰時段或提早排隊。鰻魚烤得外酥內嫩。"
+                },
+                {
+                    id: "ohori_park",
+                    name: "大濠公園",
+                    tag: "戶外",
+                    tagClass: "tag-outdoor",
+                    img: "https://www.ohorikouen.jp/img/lng/island.jpg",
+                    info: "全天開放 | 湖畔散步",
+                    desc: "福岡市民的綠洲，湖中有小島以橋相連，非常適合午後散步或踩天鵝船。"
+                },
+                {
+                    id: "fukuoka_tower",
+                    name: "福岡塔",
+                    tag: "景點",
+                    tagClass: "tag-outdoor",
+                    img: "https://www.crossroadfukuoka.jp/storage/tourism_attractions/12343/responsive_images/Xe2DsFgtzeQmkTADNBhziwV6MfGNB2Ck99CIEP8g__1690_1125.jpg",
+                    info: "09:30 - 22:00 | 外國人優惠 640円",
+                    desc: "日本最高的海濱塔，鏡面外觀在夕陽下非常美麗。建議黃昏時前往。"
+                },
+                {
+                    id: "momochi",
+                    name: "百道海濱公園",
+                    tag: "戶外",
+                    tagClass: "tag-outdoor",
+                    img: "https://www.fukuokatower.co.jp/files/bgeditor/img/132__c2Vhc2lkZW1vbW9jaGktMDE-d-.jpg",
+                    info: "福岡塔正前方 | 人造沙灘",
+                    desc: "充滿異國風情的海濱區域，有歐式結婚禮堂，是看海與拍攝福岡塔全景的最佳位置。"
+                }
+            ]
+        },
+        {
+            day: 4,
+            date: "3/3 (週二)",
+            title: "Outlet 購物日",
+            spots: [
+                {
+                    id: "marinoa",
+                    name: "Marinoa City Fukuoka",
+                    tag: "購物",
+                    tagClass: "tag-shop",
+                    img: "https://japantravel.co/wp-content/uploads/2024/08/marinoa-city-fukuoka-daytime-2.jpg",
+                    info: "10:00 - 20:00 | 海濱Outlet",
+                    desc: "天神搭乘 333 號巴士直達。九州規模最大的 Outlet 之一，有摩天輪與大量運動品牌。"
+                }
+            ]
+        },
+        {
+            day: 5,
+            date: "3/4 (週三)",
+            title: "宗教與文化巡禮",
+            spots: [
+                {
+                    id: "dazaifu",
+                    name: "太宰府天滿宮",
+                    tag: "文化",
+                    tagClass: "tag-culture",
+                    img: "https://images.ctfassets.net/zk4rsh4y8c7i/378k5bVGsV8QGQwf7CoBjb/0c82d7cbda91012ebdfeed457973239a/img_og_dazaifu_tcn.jpg?q=30",
+                    info: "06:30 - 19:00 | 表參道梅枝餅",
+                    desc: "搭乘西鐵旅人號前往。供奉學問之神，參道上有星巴克概念店與必吃梅枝餅。"
+                },
+                {
+                    id: "nanzoin",
+                    name: "南藏院",
+                    tag: "文化",
+                    tagClass: "tag-culture",
+                    img: "https://peikie.com/wp-content/uploads/IMG_2834.jpeg",
+                    info: "09:00 - 16:30 | 世界最大青銅臥佛",
+                    desc: "JR 城戶南藏院前站下車。氣氛莊嚴，擁有震撼的巨大臥佛。請注意穿著與保持安靜。"
+                }
+            ]
+        },
+        {
+            day: 6,
+            date: "3/5 (週四)",
+            title: "前進大分 - 湯布院散策",
+            spots: [
+                {
+                    id: "yufuin_station",
+                    name: "由布院 (Yufuin)",
+                    tag: "交通",
+                    tagClass: "tag-outdoor",
+                    img: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgfENkvdMq_GuBvhxuWFrG92b0Uf-10Nfxd12SJczBi5OHyyTbwySccfOQcVovpxm1rg5DaUVvwreUpW4Iiyof0yDwZ3knDaqBlEAplmiOb1qMeGTYye-Fp6ghQxKUu8-5P-MlYLP2BYNFx/s1600-rw/Kyushu-Yufuin-IMG_4766.JPG",
+                    info: "高速巴士約 1h40m",
+                    desc: "建議從博多巴士總站搭乘高速巴士直達（需預約），比 JR 更方便。車站建築由磯崎新設計，非常有特色。"
+                },
+                {
+                    id: "yunotsubo",
+                    name: "湯之坪街道",
+                    tag: "購物",
+                    tagClass: "tag-shop",
+                    img: "https://s3-ap-northeast-1.amazonaws.com/thegate/2021/02/02/13/38/03/Yunotsubo-Kaido.jpg",
+                    info: "10:00 - 17:00 | 甜點激戰區",
+                    desc: "B-Speak 蛋糕捲、史努比茶屋、米飛兔麵包店都在這條街上。邊吃邊逛前往金鱗湖。"
+                },
+                {
+                    id: "kinrin_lake",
+                    name: "金鱗湖 (夕陽/夜間)",
+                    tag: "戶外",
+                    tagClass: "tag-outdoor",
+                    img: "https://tw.wamazing.com/media/wp-content/uploads/sites/4/2024/06/kinrinko_pixta_73475123_M.jpg.webp",
+                    info: "全天開放 | 湖中鳥居",
+                    desc: "第一天抵達可先欣賞午後或傍晚的金鱗湖，湖水由溫泉與清水混合，氣溫低時湖面會飄起煙霧。"
+                }
+            ]
+        },
+        {
+            day: 7,
+            date: "3/6 (週五)",
+            title: "由布院深度慢活 & 返回博多",
+            spots: [
+                {
+                    id: "kinrin_morning",
+                    name: "金鱗湖晨霧",
+                    tag: "戶外",
+                    tagClass: "tag-outdoor",
+                    img: "https://oreo.blog/wp-content/uploads/20180722181710_58.jpg",
+                    info: "推薦時段: 07:00 - 08:30",
+                    desc: "住在由布院的特權！清晨氣溫低，湖面會籠罩在夢幻的白色晨霧中，景色與白天截然不同，是攝影愛好者的最愛。"
+                },
+                {
+                    id: "floral_village",
+                    name: "湯布院花卉村",
+                    tag: "景點",
+                    tagClass: "tag-shop",
+                    img: "https://res.klook.com/image/upload/c_crop,h_920,w_1472,x_70,y_0,z_0.4/w_750,h_469,c_fill,q_85/w_80,x_15,y_15,g_south_west,l_Klook_water_br_trans_yhcmh3/activities/or1zxme8kbtlh7fy4gxg.jpg",
+                    info: "09:30 - 17:30 | 歐式童話村",
+                    desc: "彷彿走進哈利波特或宮崎駿的世界，充滿英式科茨沃爾德風格的黃色小屋，內有許多貓頭鷹、松鼠等小動物區。"
+                },
+                {
+                    id: "comico_art",
+                    name: "由布院史奴比茶屋",
+                    tag: "購物",
+                    tagClass: "tag-culture",
+                    img: "https://cc.tvbs.com.tw/img/program/upload/2024/01/15/20240115170938-5834497d.jpg",
+                    info: "大買紀念品",
+                    desc: "滿滿史努比由布院限定品，無敵萌的，還有史努比造型甜點～3間由布院史努比就在隔壁、對面"
+                },
+                {
+                    id: "mt_yufu_view",
+                    name: "由布岳 & 漫遊",
+                    tag: "戶外",
+                    tagClass: "tag-outdoor",
+                    img: "https://i0.wp.com/alleychen.com/wp-content/uploads/2024/09/image-26.png?resize=935%2C658&ssl=1",
+                    info: "慢活散策",
+                    desc: "下午避開湯之坪主要人潮，往由布岳方向散步，找間視野好的咖啡廳休息。隨後搭乘<span class='warning-text'>傍晚的高速巴士或 JR</span> 返回博多市區，準備明天的行程。"
+                }
+            ]
+        },
+        {
+            day: 8,
+            date: "3/7 (週六)",
+            title: "博多舊城區 & 完美句點",
+            spots: [
+                {
+                    id: "kushida",
+                    name: "櫛田神社",
+                    tag: "文化",
+                    tagClass: "tag-culture",
+                    img: "https://www.crossroadfukuoka.jp/storage/tourism_attractions/12510/responsive_images/4jz3eLXD7vlsC5mkI0SE8kwFzjCjK6tgsbBcPQ1Y__1673_1115.jpg",
+                    info: "04:00 - 22:00 | 博多總鎮守",
+                    desc: "觀賞巨大的「飾山笠」。這是博多人的信仰中心，離川端商店街非常近。"
+                },
+                {
+                    id: "bread_espresso",
+                    name: "BREAD, ESPRESSO & HAKATA &",
+                    tag: "美食",
+                    tagClass: "tag-food",
+                    img: "https://static.popdaily.com.tw/u/202409/540e91d4-f9d2-48d2-b2d5-a3c242602aa4.png",
+                    info: "08:00 - 20:00 | 網紅麵包店",
+                    desc: "位於櫛田神社旁，非常適合作為早餐或下午茶，麵包口感極佳。"
+                },
+                {
+                    id: "kawabata",
+                    name: "川端通商店街",
+                    tag: "購物",
+                    tagClass: "tag-shop",
+                    img: "https://tw.wamazing.com/media/wp-content/uploads/sites/4/2019/11/fukuokashotengai_7.jpg.webp",
+                    info: "博多最古老商店街",
+                    desc: "連接神社與運河城，充滿昭和風味，有許多便宜的藥妝店、豆腐店與拉麵店。"
+                },
+                {
+                    id: "river_cruise",
+                    name: "那珂川水上巴士",
+                    tag: "體驗",
+                    tagClass: "tag-outdoor",
+                    img: "https://www.crossroadfukuoka.jp/storage/tourism_attractions/11452/responsive_images/FjDrKw18dVcXTAHLTvQB8BzqQyhLzVsBAOiFV3wg__1673_1116.jpg",
+                    info: "約 18:00 - 21:00 | 船程 30min",
+                    desc: "在福博であい橋搭船。夜晚乘船遊河，可以從水面上看見中洲霓虹燈與福岡塔夜景。"
+                },
+                {
+                    id: "nakasu_yatai",
+                    name: "中洲屋台",
+                    tag: "美食",
+                    tagClass: "tag-food",
+                    img: "https://static.gltjp.com/glt/data/directory/15000/14348/20230324_204943_457f9a93_w1920.webp",
+                    info: "18:00 - 24:00 | 屋台文化",
+                    desc: "位於那珂川旁，雖然價格稍高，但氣氛滿點。建議點關東煮、拉麵體驗博多夜生活。"
+                }
+            ]
+        },
+        {
+            day: 9,
+            date: "3/8 (週日)",
+            title: "歸途",
+            spots: [
+                {
+                    id: "hakata_station",
+                    name: "博多車站 & 機場",
+                    tag: "交通",
+                    tagClass: "tag-culture",
+                    img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTAYEWSMdwv0MGsiOKJvR5Q59KVwAV1HXwLA&s",
+                    info: "12:15 起飛 | 10:15 抵達機場",
+                    desc: "早上可在車站做最後伴手禮採買。<span class='warning-text'>建議 09:45 前從博多站搭地鐵前往機場</span>，並預留時間搭乘接駁車至國際線航廈。"
+                }
+            ]
+        }
+    ];
+
+    // 收合功能函式
+    function toggleDay(headerElement) {
+        const section = headerElement.parentElement;
+        section.classList.toggle('collapsed');
+    }
+
+    // 渲染函式
+    function renderItinerary() {
+        const container = document.getElementById('itinerary-container');
+        let html = '';
+
+        itinerary.forEach(day => {
+            let spotsHtml = '';
+            day.spots.forEach(spot => {
+                // 取得座標設定
+                const loc = locationData[spot.id];
+                let mapLink = '';
+                
+                // 判斷地圖按鈕行為
+                if (loc && loc.lat && loc.lng) {
+                    // 有座標：開啟 Google Maps 座標
+                    mapLink = `https://www.google.com/maps/search/?api=1&query=${loc.lat},${loc.lng}`;
+                } else {
+                    // 無座標：開啟 Google Maps 文字搜尋
+                    mapLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(spot.name + " 福岡")}`;
+                }
+
+                spotsHtml += `
+                    <div class="spot-card">
+                        <div class="spot-marker"></div>
+                        <div class="spot-content">
+                            <img src="${spot.img}" alt="${spot.name}" class="spot-image" onerror="this.src='https://placehold.co/600x400/eee/999?text=Image+Not+Found'">
+                            <div class="spot-details">
+                                <div class="spot-name">
+                                    ${spot.name}
+                                    <a href="${mapLink}" target="_blank" class="btn-map">
+                                        <i class="fa-solid fa-location-dot"></i> 地圖
+                                    </a>
+                                </div>
+                                <div class="tags">
+                                    <span class="${spot.tagClass}">${spot.tag}</span>
+                                </div>
+                                <div class="spot-info">
+                                    <i class="fa-regular fa-clock"></i> ${spot.info}
+                                </div>
+                                <div class="spot-desc">
+                                    ${spot.desc}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            // 每一天的區塊結構：增加 onclick 事件
+            html += `
+                <div class="day-section collapsed" id="day-${day.day}">
+                    <div class="day-header" onclick="toggleDay(this)">
+                        <div class="header-info">
+                            <span class="day-title">Day ${day.day} - ${day.title}</span>
+                            <span class="day-date">${day.date}</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-down toggle-icon"></i>
+                    </div>
+                    <div class="timeline">
+                        ${spotsHtml}
+                    </div>
+                </div>
+            `;
+        });
+
+        container.innerHTML = html;
+    }
+
+    // 執行渲染
+    renderItinerary();
+</script>
 
 </body>
 </html>
