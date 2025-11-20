@@ -117,22 +117,11 @@
             display: none; /* 隱藏內容 */
         }
         
-        /* 為了讓sticky效果在收合時不怪異，我們移除原本的 sticky 效果，
-           或者保留它但要注意收合後的行為。這裡為了收合體驗流暢，先移除 sticky */
-        /*
-        .day-header {
-            position: sticky;
-            top: 0;
-            z-index: 10;
-        }
-        */
-
         /* Timeline & Cards */
         .timeline {
             background: var(--card-bg);
             padding: 20px;
             position: relative;
-            /* 動畫過渡效果有點複雜，這裡用簡單的 display none 切換 */
         }
 
         .timeline::before {
@@ -233,6 +222,7 @@
             font-size: 0.9rem;
             color: #444;
             margin-bottom: 15px;
+            white-space: pre-line; /* 保留換行格式 */
         }
 
         .btn-map {
@@ -289,67 +279,56 @@
 </footer>
 
 <script>
-    /**
-     * ============================================================
-     * 使用者設定區 (USER CONFIGURATION)
-     * 請在此處填入您查詢到的經緯度。
-     * 格式：lat: 緯度, lng: 經度
-     * 如果不填 (null)，地圖按鈕會自動切換為「文字搜尋」模式。
-     * ============================================================
-     */
     const locationData = {
         // Day 1
-        "fuk_airport": { lat: null, lng: null }, // 福岡機場
-        "pancake": { lat: null, lng: null },     // 幸福pancake
-        "lalaport": { lat: null, lng: null },    // LaLaport
-        "canal_city": { lat: null, lng: null },  // 博多運河城
-        "bayside": { lat: null, lng: null },     // 博多灣岸廣場
+        "fuk_airport": { lat: null, lng: null },
+        "pancake": { lat: null, lng: null },
+        "lalaport": { lat: null, lng: null },
+        "canal_city": { lat: null, lng: null },
+        "bayside": { lat: null, lng: null },
         
         // Day 2
-        "kokura_castle": { lat: null, lng: null }, // 小倉城
-        "tanga_market": { lat: null, lng: null },  // 旦過市場
-        "mojiko": { lat: null, lng: null },        // 門司港懷舊區
-        "sarakurayama": { lat: null, lng: null },  // 皿倉山展望台
+        "kokura_castle": { lat: null, lng: null },
+        "tanga_market": { lat: null, lng: null },
+        "mojiko": { lat: null, lng: null },
+        "sarakurayama": { lat: null, lng: null },
 
         // Day 3
-        "tenjin_under": { lat: null, lng: null },  // 天神地下街
-        "yoshizuka": { lat: null, lng: null },     // 吉塚鰻魚屋
-        "ohori_park": { lat: null, lng: null },    // 大濠公園
-        "fukuoka_tower": { lat: null, lng: null }, // 福岡塔
-        "momochi": { lat: null, lng: null },       // 百道海濱公園
+        "tenjin_under": { lat: null, lng: null },
+        "yoshizuka": { lat: null, lng: null },
+        "ohori_park": { lat: null, lng: null },
+        "fukuoka_tower": { lat: null, lng: null },
+        "momochi": { lat: null, lng: null },
 
         // Day 4
-        "marinoa": { lat: null, lng: null },       // Marinoa City Outlet
+        "marinoa": { lat: null, lng: null },
 
         // Day 5
-        "dazaifu": { lat: null, lng: null },       // 太宰府天滿宮
-        "nanzoin": { lat: null, lng: null },       // 南藏院
+        "dazaifu": { lat: null, lng: null },
+        "nanzoin": { lat: null, lng: null },
 
         // Day 6
-        "yufuin_station": { lat: null, lng: null }, // 由布院車站
-        "yunotsubo": { lat: null, lng: null },      // 湯之坪街道
-        "kinrin_lake": { lat: null, lng: null },    // 金鱗湖 (傍晚/夜間)
+        "yufuin_station": { lat: null, lng: null },
+        "yunotsubo": { lat: null, lng: null },
+        "kinrin_lake": { lat: null, lng: null },
 
-        // Day 7 (由布院 Day 2)
-        "kinrin_morning": { lat: null, lng: null }, // 金鱗湖晨霧
-        "floral_village": { lat: null, lng: null }, // 湯布院童話村
-        "comico_art": { lat: null, lng: null },     // COMICO ART MUSEUM
-        "mt_yufu_view": { lat: null, lng: null },   // 由布岳登山口/觀景點
+        // Day 7
+        "kinrin_morning": { lat: null, lng: null },
+        "floral_village": { lat: null, lng: null },
+        "comico_art": { lat: null, lng: null },
+        "mt_yufu_view": { lat: null, lng: null },
 
         // Day 8
-        "kushida": { lat: null, lng: null },        // 櫛田神社
-        "bread_espresso": { lat: null, lng: null }, // BREAD, ESPRESSO
-        "kawabata": { lat: null, lng: null },       // 川端通商店街
-        "river_cruise": { lat: null, lng: null },   // 那珂川水上巴士
-        "nakasu_yatai": { lat: null, lng: null },   // 中洲屋台
+        "kushida": { lat: null, lng: null },
+        "bread_espresso": { lat: null, lng: null },
+        "kawabata": { lat: null, lng: null },
+        "river_cruise": { lat: null, lng: null },
+        "nakasu_yatai": { lat: null, lng: null },
 
         // Day 9
-        "hakata_station": { lat: null, lng: null }  // 博多車站
+        "hakata_station": { lat: null, lng: null }
     };
 
-    /**
-     * 行程資料結構
-     */
     const itinerary = [
         {
             day: 1,
@@ -442,6 +421,7 @@
                     tagClass: "tag-outdoor",
                     img: "https://static.gltjp.com/glt/data/directory/13000/12873/20220223_105017_deba3c1d_w1920.webp",
                     info: "纜車往返 1230円 | 新日本三大夜景",
+                    /* 修正：改用反引號 ` 包裹多行字串 */
                     desc: `JR 八幡站轉乘免費接駁車（週末運行）。<span class='warning-text'>平日需搭計程車至纜車站。</span>視野極佳，可俯瞰整個北九州。
 回博多路線詳情 (總共 48 分鐘)<br/>​第一段\：區間車<br/>​起點\： 八幡 (福岡) <br/>
 ​列車\： 鹿兒島本線 (普通車) <br/>​發車時間\： 21:16<br/>​抵達： 黑崎 <br/>​抵達時間\： 21:19 <br/>​行經\： 1 站 (3 分鐘) <br/>
@@ -561,7 +541,7 @@
                     name: "湯之坪街道",
                     tag: "購物",
                     tagClass: "tag-shop",
-                    img: "https://s3-ap-northeast-1.amazonaws.com/thegate/2021/02/02/13/38/03/Yunotsubo-Kaido.jpg",
+                    img: "https://cc.tvbs.com.tw/img/program/upload/2024/01/15/20240115170938-5834497d.jpg",
                     info: "10:00 - 17:00 | 甜點激戰區",
                     desc: "B-Speak 蛋糕捲、史努比茶屋、米飛兔麵包店都在這條街上。邊吃邊逛前往金鱗湖。"
                 },
@@ -598,15 +578,6 @@
                     img: "https://res.klook.com/image/upload/c_crop,h_920,w_1472,x_70,y_0,z_0.4/w_750,h_469,c_fill,q_85/w_80,x_15,y_15,g_south_west,l_Klook_water_br_trans_yhcmh3/activities/or1zxme8kbtlh7fy4gxg.jpg",
                     info: "09:30 - 17:30 | 歐式童話村",
                     desc: "彷彿走進哈利波特或宮崎駿的世界，充滿英式科茨沃爾德風格的黃色小屋，內有許多貓頭鷹、松鼠等小動物區。"
-                },
-                {
-                    id: "comico_art",
-                    name: "由布院史奴比茶屋",
-                    tag: "購物",
-                    tagClass: "tag-culture",
-                    img: "https://cc.tvbs.com.tw/img/program/upload/2024/01/15/20240115170938-5834497d.jpg",
-                    info: "大買紀念品",
-                    desc: "滿滿史努比由布院限定品，無敵萌的，還有史努比造型甜點～3間由布院史努比就在隔壁、對面"
                 },
                 {
                     id: "mt_yufu_view",
@@ -700,7 +671,7 @@
         const container = document.getElementById('itinerary-container');
         let html = '';
 
-        itinerary.forEach(day => {
+        itinerary.forEach((day, index) => {
             let spotsHtml = '';
             day.spots.forEach(spot => {
                 // 取得座標設定
@@ -709,10 +680,8 @@
                 
                 // 判斷地圖按鈕行為
                 if (loc && loc.lat && loc.lng) {
-                    // 有座標：開啟 Google Maps 座標
                     mapLink = `https://www.google.com/maps/search/?api=1&query=${loc.lat},${loc.lng}`;
                 } else {
-                    // 無座標：開啟 Google Maps 文字搜尋
                     mapLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(spot.name + " 福岡")}`;
                 }
 
@@ -743,9 +712,12 @@
                 `;
             });
 
-            // 每一天的區塊結構：增加 onclick 事件
+            // 每一天的區塊結構
+            // 修正：第一天預設不收合 (移除 collapsed)，其他天預設收合
+            const isCollapsed = index === 0 ? '' : 'collapsed';
+            
             html += `
-                <div class="day-section collapsed" id="day-${day.day}">
+                <div class="day-section ${isCollapsed}" id="day-${day.day}">
                     <div class="day-header" onclick="toggleDay(this)">
                         <div class="header-info">
                             <span class="day-title">Day ${day.day} - ${day.title}</span>
